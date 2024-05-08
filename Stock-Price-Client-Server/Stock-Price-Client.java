@@ -15,27 +15,27 @@ public class StockPriceClient {
         } else {
         	host = args[0];
         }
-        //  use PrintWriter to handle socket output stream and BufferedReader
+
         //   for both socket input stream and standard input stream (user input)
         try (Socket socket = new Socket(host, 59898)) {
-        	PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        	PrintWriter out = new PrintWriter(socket.getOutputStream(), true); //  use PrintWriter to handle socket output stream
         	BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         	BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
         	System.out.println("Enter lines of text then enter 'exit' to quit");;
             String readline = "";
             String response = "";
-            // allow user to send stock code to the server and receive response
-            //implement logic to terminate the connection. (eg. when receiving 'exit' msg)
+
+
             while(true) {
             	try {
             		readline = stdIn.readLine(); // get client input
             		if (readline.equals("exit")) {
             			System.out.println("Exit client");
-            			break;
+            			break;  //terminate the connection (when receiving 'exit' msg)
             		}
             		System.out.println("Client - "+ readline);
                 	out.println(readline);
-                	response = in.readLine();
+                	response = in.readLine(); // send user's stock code to the server and receive response
                 	System.out.println("Server - " + response); // show server response
             	} catch (IOException ioe) {
             		System.out.println("Sending error: " + ioe.getMessage());
