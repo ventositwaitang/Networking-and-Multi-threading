@@ -9,15 +9,15 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/** Receiving client data,proceed the input, and sending the response back is all done on the thread, allowing
- * much greater throughput because more clients can be handled concurrently.
+/** Receiving client data,proceed the input, and sending the response back,
+ * all done on the thread, allowing much greater throughput, can handle more clients concurrently.
  */
 public class StockPriceServer {
-    /**
-     * Runs the server. When a client connects, the server spawns a new thread to do
-     * the servicing and immediately returns to listening. The application limits the
-     * number of threads via a thread pool (otherwise millions of clients could cause
-     * the server to run out of resources by allocating too many threads).
+    /** Runs the server:
+     * When a client connects, the server spawns a new thread to do the servicing (listen clients' input)
+     * and immediately returns to listening.
+     * The application limits the number of threads via a thread pool
+     * (otherwise millions of clients could cause the server to run out of resources by allocating too many threads).
      */
     public static void main(String[] args) throws Exception {
 		// create a server socket listening at port 59898
@@ -96,7 +96,7 @@ public class StockPriceServer {
                 System.out.println("Error:" + socket);
                 System.err.println(e.getMessage());
             } finally {
-                try { socket.close(); } catch (IOException e) {} //use try..catch to handle potential error (eg. IOException, undefined stock code)
+                try { socket.close(); } catch (IOException e) {} // handle potential error (eg. IOException, undefined stock code)
                 System.out.println("Closed: " + socket);
             }
         }
