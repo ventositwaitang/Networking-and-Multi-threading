@@ -23,25 +23,22 @@ public class StockPriceServer {
 		// create a server socket listening at port 59898
         try (ServerSocket listener = new ServerSocket(59898)) {
             System.out.println("The stock price server is running...");
-            // create ExecutorService object of 20 threads (Check static method Executors.newFixedThreadPool)
+            // create ExecutorService object of 20 threads
             ExecutorService pool = Executors.newFixedThreadPool(20);
+
             // have the server keep listening the coming socket requests
-            /* Use [server socket].accept() to establish connection with client socket.
-             * Use [ExecutorService].execute() to start a new thread
-             */
             while (true) {
-                pool.execute(new StockChecker(listener.accept()));
+                pool.execute(new StockChecker(listener.accept())); // Use [ExecutorService].execute() to start a new thread //pass the connected socket to inner class
             }
         } catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
     }
-
+    //let the inner class handles the server-client interaction to keep listening the coming socket requests.
     private static class StockChecker implements Runnable {
-        private Socket socket;
+        private Socket socket; //Use [server socket].accept() to establish connection with client socket.
         private Map<String, Double> stock_list = new HashMap<String, Double>();
-        
-        //Use data structure to map the stock code and the corresponding prices.
+        /*
          * use Map<String, Double>
          * Example data:
          * AAPL: 257.13
@@ -66,6 +63,7 @@ public class StockPriceServer {
         }
         
 
+
         @Override
         public void run() {
             System.out.println("Connected: " + socket);
@@ -73,6 +71,7 @@ public class StockPriceServer {
             	// use BufferedReader, InputStreamReader to handle socket input stream (output to clients)
             	BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             	// use PrintWriter to handle socket output stream (input from clients)
+
             	PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 String q = "";
                 
